@@ -192,20 +192,20 @@ class _HeroSectionState extends State<HeroSection>
       child: Container(
         width: isMobile ? 200 : 350,
         height: isMobile ? 200 : 350,
-        // decoration: BoxDecoration(
-        //   shape: BoxShape.circle,
-        //   border: Border.all(
-        //     color: AppColors.primary.withOpacity(0.3),
-        //     width: 10,
-        //   ),
-        //   boxShadow: [
-        //     BoxShadow(
-        //       color: AppColors.primary.withOpacity(0.2),
-        //       blurRadius: 30,
-        //       spreadRadius: 10,
-        //     ),
-        //   ],
-        // ),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: AppColors.primary.withOpacity(0.3),
+            width: 10,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withOpacity(0.2),
+              blurRadius: 30,
+              spreadRadius: 10,
+            ),
+          ],
+        ),
         child: ClipOval(
           child: Image.asset(
             AssetPaths.profilePath,
