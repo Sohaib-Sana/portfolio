@@ -1,7 +1,7 @@
 class AssetPaths {
   // Image paths
   static const String logoPath = 'assets/images/logo.png';
-  static const String profilePath = 'assets/images/profile2.png';
+  static const String profilePath = 'assets/images/profile.png';
   static const String robotPath = 'assets/images/robot.png';
 
   // Project images
