@@ -8,14 +8,14 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
-      colorScheme: const ColorScheme.light(
+      colorScheme: ColorScheme.light(
         primary: AppColors.primary,
         secondary: AppColors.primaryDark,
-        // background: AppColors.lightBackground,
+        background: AppColors.lightBackground,
         surface: AppColors.cardLight,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
-        // onBackground: AppColors.lightTextPrimary,
+        onBackground: AppColors.lightTextPrimary,
         onSurface: AppColors.lightTextPrimary,
       ),
       scaffoldBackgroundColor: AppColors.lightBackground,
@@ -63,14 +63,14 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      colorScheme: const ColorScheme.dark(
+      colorScheme: ColorScheme.dark(
         primary: AppColors.primary,
         secondary: AppColors.primaryLight,
-        // background: AppColors.darkBackground,
+        background: AppColors.darkBackground,
         surface: AppColors.cardDark,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
-        // onBackground: AppColors.darkTextPrimary,
+        onBackground: AppColors.darkTextPrimary,
         onSurface: AppColors.darkTextPrimary,
       ),
       scaffoldBackgroundColor: AppColors.darkBackground,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../core/assets_path.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../core/utils/responsive_helper.dart';
 import '../../bloc/theme/theme_bloc.dart';
@@ -27,6 +29,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
   int _selectedIndex = 0;
   final List<String> _navItems = [
     'Home',
+    'Skills',
+    'Experience',
+    'Portfolio',
+    'Contact'
   ];
 
   void _onNavItemTapped(int index) {
@@ -133,7 +139,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             style: TextStyle(
               color: isSelected
                   ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.onSurface,
+                  : Theme.of(context).colorScheme.onBackground,
               fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
               fontSize: 16,
             ),

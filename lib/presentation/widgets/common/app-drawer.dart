@@ -12,6 +12,10 @@ class AppDrawer extends StatelessWidget {
     this.onNavItemTapped,
     this.navItems = const [
       'Home',
+      'Skills',
+      'Experience',
+      'Portfolio',
+      'Contact'
     ],
   }) : super(key: key);
 
@@ -29,12 +33,12 @@ class AppDrawer extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Image.asset(
-                  //   'assets/images/logo.png',
-                  //   height: 50,
-                  //   width: 50,
-                  // ),
-                  // const SizedBox(width: 12),
+                  Image.asset(
+                    'assets/images/logo.png',
+                    height: 50,
+                    width: 50,
+                  ),
+                  const SizedBox(width: 12),
                   Text(
                     'Menna',
                     style: AppTextStyles.logo,
@@ -102,7 +106,7 @@ class AppDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16),
             child: Text(
-              '© 2024 All rights reserved | Muhammad Sohaib Sana',
+              '© 2024 All rights reserved | Menna Allah Mohamed',
               style: AppTextStyles.caption,
               textAlign: TextAlign.center,
             ),
@@ -117,6 +121,14 @@ class AppDrawer extends StatelessWidget {
     switch (navItem) {
       case 'Home':
         return const Icon(Icons.home);
+      case 'Skills':
+        return const Icon(Icons.code);
+      case 'Experience':
+        return const Icon(Icons.work);
+      case 'Portfolio':
+        return const Icon(Icons.apps);
+      case 'Contact':
+        return const Icon(Icons.email);
       default:
         return const Icon(Icons.circle);
     }

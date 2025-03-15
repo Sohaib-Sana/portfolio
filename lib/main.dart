@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'presentation/bloc/portfolio/portfolio_bloc.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/navigation_service.dart';
 import 'presentation/bloc/theme/theme_bloc.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ThemeBloc()),
+        BlocProvider(
+            create: (context) =>
+                PortfolioBloc()..add(LoadPortfolioDataEvent())),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {

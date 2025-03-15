@@ -1,7 +1,12 @@
 // Necessary imports
 
 import 'package:flutter/material.dart';
+
+import '../../presentation/screens/contact_screen.dart';
+import '../../presentation/screens/experience_screen.dart';
 import '../../presentation/screens/home_screen.dart';
+import '../../presentation/screens/portfolio_screen.dart';
+import '../../presentation/screens/skills_screen.dart';
 
 class NavigationService {
   static final GlobalKey<NavigatorState> navigatorKey =
@@ -50,11 +55,23 @@ class NavigationService {
 
 class AppRouter {
   static const String home = '/';
+  static const String skills = '/skills';
+  static const String experience = '/experience';
+  static const String portfolio = '/portfolio';
+  static const String contact = '/contact';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case home:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+      case skills:
+        return MaterialPageRoute(builder: (_) => const SkillsScreen());
+      case experience:
+        return MaterialPageRoute(builder: (_) => const ExperienceScreen());
+      case portfolio:
+        return MaterialPageRoute(builder: (_) => const PortfolioScreen());
+      case contact:
+        return MaterialPageRoute(builder: (_) => const ContactScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
