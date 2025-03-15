@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 60,
       color: Theme.of(context).brightness == Brightness.light
           ? AppColors.lightBackground
-          : AppColors.darkBackground.withOpacity(0.3),
+          : AppColors.darkBackground.withValues(alpha: 0.3),
       child: const Center(
         child: Text(''),
       ),
