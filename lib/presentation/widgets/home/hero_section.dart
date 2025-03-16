@@ -192,21 +192,22 @@ class _HeroSectionState extends State<HeroSection>
       child: Container(
         width: isMobile ? 200 : 350,
         height: isMobile ? 200 : 350,
-        // decoration: BoxDecoration(
-        //   shape: BoxShape.circle,
-        //   border: Border.all(
-        //     color: AppColors.primary.withOpacity(0.3),
-        //     width: 10,
-        //   ),
-        //   boxShadow: [
-        //     BoxShadow(
-        //       color: AppColors.primary.withOpacity(0.2),
-        //       blurRadius: 30,
-        //       spreadRadius: 10,
-        //     ),
-        //   ],
-        // ),
-        child: ClipOval(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: AppColors.primary.withAlpha((0.3 * 255).toInt()),
+            width: 10,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primary.withAlpha((0.2 * 255).toInt()),
+              blurRadius: 30,
+              spreadRadius: 10,
+            ),
+          ],
+        ),
+        child: ClipPath(
+          clipper: CustomCircleClipper(),
           child: Image.asset(
             AssetPaths.profilePath,
             fit: BoxFit.cover,
@@ -215,4 +216,20 @@ class _HeroSectionState extends State<HeroSection>
       ),
     );
   }
+}
+
+class CustomCircleClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    double diameter = size.shortestSide;
+
+    Path path = Path()
+      ..addOval(Rect.fromLTWH((size.width - diameter) / 2,
+          (size.height - diameter) / 2, diameter, diameter));
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

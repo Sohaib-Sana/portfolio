@@ -65,12 +65,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
           // Logo
           Row(
             children: [
-              // Image.asset(
-              //   AssetPaths.logoPath,
-              //   height: 50,
-              //   width: 50,
-              // ),
-              const SizedBox(width: 8),
               Text(
                 'Muhammad Sohaib Sana',
                 style: AppTextStyles.logo,

@@ -38,14 +38,14 @@ class AnimatedText extends StatelessWidget {
       case AnimationType.colorize:
         return AnimatedTextUtils.buildColorizeAnimatedText(
           texts: texts,
+          style: style,
+          textAlign: textAlign,
           colorizeColors: [
             AppColors.primary,
             AppColors.primaryDark,
             AppColors.primaryLight,
             AppColors.primary,
           ],
-          style: style,
-          textAlign: textAlign,
         );
       case AnimationType.wavy:
         return AnimatedTextUtils.buildWavyAnimatedText(

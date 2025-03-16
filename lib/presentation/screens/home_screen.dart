@@ -81,7 +81,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   key: _heroKey,
                   onResumePressed: () {
                     // Handle resume button press
-                    _scrollToSection('Experience');
                   },
                 ),
 

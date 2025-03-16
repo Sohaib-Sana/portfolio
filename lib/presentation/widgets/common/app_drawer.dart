@@ -36,7 +36,7 @@ class AppDrawer extends StatelessWidget {
                   // ),
                   // const SizedBox(width: 12),
                   Text(
-                    'Menna',
+                    'Sohaib',
                     style: AppTextStyles.logo,
                   ),
                 ],
@@ -77,7 +77,7 @@ class AppDrawer extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
+              children: [
                 SocialButton(
                   platform: SocialPlatform.github,
                   size: 20,
