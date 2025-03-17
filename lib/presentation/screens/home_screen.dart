@@ -5,6 +5,7 @@ import '../../core/utils/responsive_helper.dart';
 import '../widgets/common/app_drawer.dart';
 import '../widgets/common/custom_app_bar.dart';
 import '../widgets/home/hero_section.dart';
+import '../widgets/skills/skill_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Section keys for scrolling
   final GlobalKey _heroKey = GlobalKey();
+  final GlobalKey _skillsKey = GlobalKey();
 
   // Map of section names to keys for easy access
   late final Map<String, GlobalKey> _sectionKeys;
@@ -28,9 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     // Initialize section keys map
-    _sectionKeys = {
-      'Home': _heroKey,
-    };
+    _sectionKeys = {'Home': _heroKey, 'Skills': _skillsKey};
   }
 
   @override
@@ -83,6 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Handle resume button press
                   },
                 ),
+
+                // Skills Section
+                buildSkillsSection(context, key: _skillsKey),
 
                 // Footer
                 _buildFooter(),
