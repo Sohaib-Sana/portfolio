@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/app_text_styles.dart';
 import '../../../core/utils/responsive_helper.dart';
 import '../../bloc/theme/theme_bloc.dart';
+import '../../../core/constants/sections.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final bool showDrawerIcon;
@@ -25,7 +26,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _CustomAppBarState extends State<CustomAppBar> {
   int _selectedIndex = 0;
-  final List<String> _navItems = ['Home', 'Skills'];
+  final List<String> _navItems = [AppSections.Home, AppSections.Skills];
 
   void _onNavItemTapped(int index) {
     setState(() {
@@ -48,7 +49,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         horizontal: ResponsiveHelper.getHorizontalPadding(context),
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
