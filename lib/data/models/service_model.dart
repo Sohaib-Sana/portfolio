@@ -59,6 +59,7 @@ class ServiceModel {
           'Flutter',
           'Dart',
           'Responsive UI',
+          'Animations',
           'Clean Architecture',
           'MVVM Pattern',
           'API Integration',
@@ -76,8 +77,8 @@ class ServiceModel {
           'Cubit',
           'Provider',
         ],
-        iconBackgroundColor: const Color(0xFF98D8D8), // Light teal
-        iconColor: Colors.black,
+        // iconBackgroundColor: const Color(0xFF98D8D8), // Light teal
+        // iconColor: Colors.black,
       ),
       ServiceModel(
         title: 'Firebase Integration',
@@ -101,10 +102,10 @@ class ServiceModel {
             'Expert in using offline caching in Flutter apps for ensuring smooth offline',
         iconPath: AssetPaths.storageIconPath,
         technologies: [
-          'Hive',
           'Sqflite',
           'Secure Storage',
           'Shared Preferences',
+          'Hive',
         ],
         // iconBackgroundColor: const Color(0xFF95C8F0), // Light blue
         // iconColor: Colors.black,
