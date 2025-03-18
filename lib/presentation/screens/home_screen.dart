@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 import '../../core/constants/app_colors.dart';
+import '../../core/constants/sections.dart';
 import '../../core/utils/responsive_helper.dart';
 import '../widgets/common/app_drawer.dart';
 import '../widgets/common/custom_app_bar.dart';
+import '../widgets/common/scroll-to-top.dart';
+import '../widgets/common/scroll_down_button.dart';
 import '../widgets/home/hero_section.dart';
 import '../widgets/skills/skill_section.dart';
 
@@ -30,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     // Initialize section keys map
-    _sectionKeys = {'Home': _heroKey, 'Skills': _skillsKey};
+    _sectionKeys = {AppSections.Home: _heroKey, AppSections.Skills: _skillsKey};
   }
 
   @override
@@ -84,12 +87,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
 
+                // Scroll down button at the end of hero section
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 60),
+                    child: ScrollDownButton(
+                      onPressed: () => _scrollToSection('Skills'),
+                    ),
+                  ),
+                ),
+
                 // Skills Section
                 buildSkillsSection(context, key: _skillsKey),
 
                 // Footer
                 _buildFooter(),
               ],
+            ),
+          ),
+          // Scroll to top button
+          Positioned(
+            bottom: 30,
+            right: 30,
+            child: ScrollToTopButton(
+              scrollController: _scrollController,
             ),
           ),
         ],

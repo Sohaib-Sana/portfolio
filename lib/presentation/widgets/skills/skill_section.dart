@@ -21,7 +21,7 @@ Widget buildSkillsSection(BuildContext context, {Key? key}) {
     width: double.infinity,
     padding: EdgeInsets.symmetric(
       horizontal: ResponsiveHelper.getHorizontalPadding(context),
-      vertical: 60,
+      vertical: ResponsiveHelper.getScreenPadding(context).vertical,
     ),
     decoration: BoxDecoration(
       color: Theme.of(context).brightness == Brightness.light

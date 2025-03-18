@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_text_styles.dart';
+import '../../../core/constants/sections.dart';
 import 'social_button.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -11,7 +12,8 @@ class AppDrawer extends StatelessWidget {
     Key? key,
     this.onNavItemTapped,
     this.navItems = const [
-      'Home',
+      AppSections.Home,
+      AppSections.Skills,
     ],
   }) : super(key: key);
 
@@ -115,8 +117,10 @@ class AppDrawer extends StatelessWidget {
   // Helper method to get appropriate icon for each nav item
   Icon _getIconForNavItem(String navItem) {
     switch (navItem) {
-      case 'Home':
+      case AppSections.Home:
         return const Icon(Icons.home);
+      case AppSections.Skills:
+        return const Icon(Icons.code);
       default:
         return const Icon(Icons.circle);
     }
