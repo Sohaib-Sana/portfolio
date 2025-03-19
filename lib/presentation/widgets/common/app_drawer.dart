@@ -121,6 +121,8 @@ class AppDrawer extends StatelessWidget {
         return const Icon(Icons.home);
       case AppSections.Skills:
         return const Icon(Icons.code);
+      case AppSections.Experience:
+        return const Icon(Icons.work);
       default:
         return const Icon(Icons.circle);
     }
