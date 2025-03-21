@@ -18,25 +18,25 @@ class ExperienceModel {
   static List<ExperienceModel> getDummyExperiences() {
     return [
       ExperienceModel(
-        position: 'Flutter Mentor',
-        company: 'Cellula Technologies',
-        duration: 'Feb 2025 - Present',
-        employmentType: 'Part-Time',
-      ),
-      ExperienceModel(
-        position: 'Flutter Developer',
-        company: 'Slash Hub',
-        duration: 'July 2024 - Oct 2024',
+        position: 'Software Engineer',
+        company: 'PlanetBeyond - Highersummit',
+        duration: 'May 2024 - Present',
         employmentType: 'Full-Time',
         certificate: 'Certificate',
       ),
       ExperienceModel(
-        position: 'Flutter Developer',
-        company: 'SuperLabs',
-        duration: 'Nov 2023 - Feb 2024',
-        employmentType: 'Full-Time',
+        position: 'Software Engineer',
+        company: 'PlanetBeyond - Highersummit',
+        duration: 'Dec 2023 - May 2024',
+        employmentType: 'Intern',
         certificate: 'Certificate',
         coverLetter: 'Cover Letter',
+      ),
+      ExperienceModel(
+        position: 'Flutter Developr',
+        company: 'Open Network',
+        duration: 'Jun 2023 - Dec 2023',
+        employmentType: 'Freelancer',
       ),
     ];
   }

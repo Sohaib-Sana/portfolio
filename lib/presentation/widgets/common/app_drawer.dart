@@ -14,6 +14,7 @@ class AppDrawer extends StatelessWidget {
     this.navItems = const [
       AppSections.Home,
       AppSections.Skills,
+      AppSections.Experience,
     ],
   }) : super(key: key);
 

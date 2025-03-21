@@ -37,9 +37,24 @@ class _TimelineWidgetState extends State<TimelineWidget> {
     _scrollController.addListener(_checkVisibility);
 
     // Start initial animation after a short delay
+    // TODO: Change this Time dependent widget to Visibility by using visibility detector package.
     Future.delayed(const Duration(milliseconds: 300), () {
       _animateInitialItems();
     });
+  }
+
+  @override
+  void didUpdateWidget(covariant TimelineWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.experiences.length != widget.experiences.length) {
+      _visibleItems.clear();
+      _visibleItems
+          .addAll(List.generate(widget.experiences.length, (_) => false));
+
+      // Re-run animation when new data comes in
+      _animateInitialItems();
+    }
   }
 
   @override
@@ -134,7 +149,8 @@ class _TimelineWidgetState extends State<TimelineWidget> {
                 experience: experience,
                 isLast: isLast,
                 index: index,
-                animate: _visibleItems[index],
+                animate:
+                    index < _visibleItems.length ? _visibleItems[index] : false,
               );
             },
           ),
