@@ -25,7 +25,7 @@ A responsive Flutter portfolio application implementing a modern UI.
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/sohaib_portfolio.git
+git clone https://github.com/Sohaib-Sana/sohaib_portfolio.git
 ```
 
 2. Navigate to the project folder:
