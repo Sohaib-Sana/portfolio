@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/sections.dart';
 import '../../core/utils/responsive_helper.dart';
+import '../bloc/portfolio/portfolio_bloc.dart';
 import '../widgets/common/app_drawer.dart';
 import '../widgets/common/custom_app_bar.dart';
 import '../widgets/common/scroll-to-top.dart';
 import '../widgets/common/scroll_down_button.dart';
+import '../widgets/experience/experience_section.dart';
 import '../widgets/home/hero_section.dart';
 import '../widgets/skills/skill_section.dart';
 
@@ -24,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Section keys for scrolling
   final GlobalKey _heroKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
+  final GlobalKey _experienceKey = GlobalKey();
 
   // Map of section names to keys for easy access
   late final Map<String, GlobalKey> _sectionKeys;
@@ -33,7 +37,11 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
 
     // Initialize section keys map
-    _sectionKeys = {AppSections.Home: _heroKey, AppSections.Skills: _skillsKey};
+    _sectionKeys = {
+      AppSections.Home: _heroKey,
+      AppSections.Skills: _skillsKey,
+      AppSections.Experience: _experienceKey
+    };
   }
 
   @override
@@ -99,6 +107,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // Skills Section
                 buildSkillsSection(context, key: _skillsKey),
+
+                // Experience Section
+                BlocBuilder<PortfolioBloc, PortfolioState>(
+                  builder: (context, state) {
+                    return buildExperienceSection(
+                      context,
+                      key: _experienceKey,
+                      experiences: state.experiences,
+                    );
+                  },
+                ),
 
                 // Footer
                 _buildFooter(),

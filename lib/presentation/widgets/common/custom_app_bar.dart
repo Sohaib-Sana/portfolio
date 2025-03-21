@@ -26,7 +26,11 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 
 class _CustomAppBarState extends State<CustomAppBar> {
   int _selectedIndex = 0;
-  final List<String> _navItems = [AppSections.Home, AppSections.Skills];
+  final List<String> _navItems = [
+    AppSections.Home,
+    AppSections.Skills,
+    AppSections.Experience
+  ];
 
   void _onNavItemTapped(int index) {
     setState(() {
