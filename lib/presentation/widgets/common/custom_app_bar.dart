@@ -137,7 +137,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         return IconButton(
           icon: Icon(
             state.isDarkMode ? Icons.light_mode : Icons.dark_mode,
-            color: Theme.of(context).colorScheme.onBackground,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
           onPressed: () {
             context.read<ThemeBloc>().add(ToggleThemeEvent());

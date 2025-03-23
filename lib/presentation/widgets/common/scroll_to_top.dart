@@ -14,7 +14,7 @@ class ScrollToTopButton extends StatefulWidget {
   const ScrollToTopButton({
     Key? key,
     required this.scrollController,
-    this.showOffset = 300,
+    this.showOffset = 500,
     this.animationDuration = const Duration(milliseconds: 300),
     this.backgroundColor,
     this.iconColor,

@@ -33,7 +33,7 @@ class _SocialButtonState extends State<SocialButton> {
 
   @override
   Widget build(BuildContext context) {
-    final color = widget.color ?? Theme.of(context).colorScheme.onBackground;
+    final color = widget.color ?? Theme.of(context).colorScheme.onSurface;
     final hoverColor = widget.hoverColor ?? AppColors.primary;
 
     return MouseRegion(
