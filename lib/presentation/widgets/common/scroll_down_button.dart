@@ -66,7 +66,7 @@ class _ScrollDownButtonState extends State<ScrollDownButton>
               height: widget.size,
               width: widget.size,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
+                color: color.withAlpha((0.1 * 255).toInt()),
                 shape: BoxShape.circle,
               ),
               child: Center(

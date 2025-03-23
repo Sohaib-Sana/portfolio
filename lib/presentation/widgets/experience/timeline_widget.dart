@@ -1,9 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_text_styles.dart';
+import '../../../core/constants/sections.dart';
 import '../../../core/utils/responsive_helper.dart';
 import '../../../data/models/experience_model.dart';
 import 'experience_card.dart';
@@ -22,73 +22,19 @@ class TimelineWidget extends StatefulWidget {
 }
 
 class _TimelineWidgetState extends State<TimelineWidget> {
-  final ScrollController _scrollController = ScrollController();
-  final List<bool> _visibleItems = [];
+  late List<bool> _visibleItems;
 
   @override
   void initState() {
     super.initState();
-
-    // Initialize all items as not visible
-    _visibleItems
-        .addAll(List.generate(widget.experiences.length, (_) => false));
-
-    // Add scroll listener to animate items as they come into view
-    _scrollController.addListener(_checkVisibility);
-
-    // Start initial animation after a short delay
-    // TODO: Change this Time dependent widget to Visibility by using visibility detector package.
-    Future.delayed(const Duration(milliseconds: 300), () {
-      _animateInitialItems();
-    });
+    _visibleItems = List<bool>.filled(widget.experiences.length, false);
   }
 
   @override
   void didUpdateWidget(covariant TimelineWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-
     if (oldWidget.experiences.length != widget.experiences.length) {
-      _visibleItems.clear();
-      _visibleItems
-          .addAll(List.generate(widget.experiences.length, (_) => false));
-
-      // Re-run animation when new data comes in
-      _animateInitialItems();
-    }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_checkVisibility);
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _checkVisibility() {
-    // This would typically use visibility detection for a more accurate approach
-    // Here we're keeping it simple with a time-based approach
-  }
-
-  void _animateInitialItems() {
-    // Animate first two items (or all if less than 3)
-    final int count =
-        widget.experiences.length < 3 ? widget.experiences.length : 2;
-
-    for (int i = 0; i < count; i++) {
-      setState(() {
-        _visibleItems[i] = true;
-      });
-    }
-
-    // Schedule the remaining items to appear with delays
-    for (int i = count; i < widget.experiences.length; i++) {
-      Future.delayed(Duration(milliseconds: 500 + (i * 300)), () {
-        if (mounted) {
-          setState(() {
-            _visibleItems[i] = true;
-          });
-        }
-      });
+      _visibleItems = List<bool>.filled(widget.experiences.length, false);
     }
   }
 
@@ -99,7 +45,7 @@ class _TimelineWidgetState extends State<TimelineWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Years of experience text
+        // Header
         Padding(
           padding: EdgeInsets.only(left: isMobile ? 0 : 24),
           child: Column(
@@ -117,15 +63,11 @@ class _TimelineWidgetState extends State<TimelineWidget> {
               const SizedBox(height: 4),
               Text(
                 'Flutter Developer',
-                style: isMobile
-                    ? AppTextStyles.h4.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                      )
-                    : AppTextStyles.h3.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
+                style:
+                    (isMobile ? AppTextStyles.h4 : AppTextStyles.h3).copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -133,26 +75,39 @@ class _TimelineWidgetState extends State<TimelineWidget> {
 
         const SizedBox(height: 48),
 
-        // Timeline
+        // Timeline cards
         Padding(
           padding: EdgeInsets.only(left: isMobile ? 0 : 24),
-          child: ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: widget.experiences.length,
-            itemBuilder: (context, index) {
+          child: Column(
+            children: List.generate(widget.experiences.length, (index) {
               final experience = widget.experiences[index];
               final isLast = index == widget.experiences.length - 1;
-              log('$experience', name: 'Experience ');
 
-              return ExperienceCard(
-                experience: experience,
-                isLast: isLast,
-                index: index,
-                animate:
-                    index < _visibleItems.length ? _visibleItems[index] : false,
-              );
-            },
+              return VisibilityDetector(
+                  key: Key('${AppSections.Experience}-$index'),
+                  onVisibilityChanged: (info) {
+                    if (info.visibleFraction > 0.5 && !_visibleItems[index]) {
+                      setState(() {
+                        _visibleItems[index] = true;
+                      });
+                    }
+                  },
+                  child: AnimatedSlide(
+                    offset: _visibleItems[index]
+                        ? Offset.zero
+                        : const Offset(0, 0.2),
+                    duration: const Duration(milliseconds: 600),
+                    curve: Curves.easeOut,
+                    child: AnimatedOpacity(
+                      opacity: _visibleItems[index] ? 1.0 : 0.0,
+                      duration: const Duration(milliseconds: 600),
+                      child: ExperienceCard(
+                        experience: experience,
+                        isLast: isLast,
+                      ),
+                    ),
+                  ));
+            }),
           ),
         ),
       ],

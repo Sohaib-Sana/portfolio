@@ -7,48 +7,25 @@ import '../../../data/models/experience_model.dart';
 class ExperienceCard extends StatelessWidget {
   final ExperienceModel experience;
   final bool isLast;
-  final int index;
-  final bool animate;
 
   const ExperienceCard({
     Key? key,
     required this.experience,
     this.isLast = false,
-    required this.index,
-    this.animate = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _buildAnimatedCard();
-  }
-
-  Widget _buildAnimatedCard() {
-    return AnimatedOpacity(
-      duration: Duration(milliseconds: 500 + (index * 300)),
-      opacity: animate ? 1.0 : 0.0,
-      child: AnimatedSlide(
-        duration: Duration(milliseconds: 500 + (index * 300)),
-        offset: animate ? Offset.zero : const Offset(0, 0.5),
-        curve: Curves.easeOutQuart,
-        child: _buildCard(),
-      ),
-    );
+    return _buildCard();
   }
 
   Widget _buildCard() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Timeline dot and line
         _buildTimelineDot(),
-
         const SizedBox(width: 16),
-
-        // Card content
-        Expanded(
-          child: _buildCardContent(),
-        ),
+        Expanded(child: _buildCardContent()),
       ],
     );
   }
@@ -135,10 +112,10 @@ class ExperienceCard extends StatelessWidget {
     );
   }
 
-  Widget _buildActionLink(String text, String label) {
+  Widget _buildActionLink(String url, String label) {
     return InkWell(
       onTap: () {
-        // Handle action
+        // TODO: Open the URL (e.g. using url_launcher)
       },
       child: Text(
         label,
