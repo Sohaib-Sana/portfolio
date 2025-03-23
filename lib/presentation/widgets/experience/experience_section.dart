@@ -22,7 +22,7 @@ Widget buildExperienceSection(
     decoration: BoxDecoration(
       color: Theme.of(context).brightness == Brightness.light
           ? AppColors.lightBackground
-          : AppColors.darkBackground.withOpacity(0.3),
+          : AppColors.darkBackground.withAlpha((0.3 * 255).toInt()),
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +32,7 @@ Widget buildExperienceSection(
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(
-            'Since starting my journey as a Flutter developer, I\'ve worked with startups and talented teams, gaining hands-on experience in building impactful, user-centric applications. This has allowed me to sharpen my skills in mobile app development and creating seamless user experiences.',
+            'Since starting my journey as a Flutter developer, I\'ve worked with startup and talented teams, gaining hands-on experience in building impactful, user-centric applications. This has allowed me to sharpen my skills in mobile app development and creating seamless user experiences.',
             style: AppTextStyles.bodyMedium,
           ),
         ),

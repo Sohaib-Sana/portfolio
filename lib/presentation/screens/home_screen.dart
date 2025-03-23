@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/sections.dart';
@@ -7,7 +8,7 @@ import '../../core/utils/responsive_helper.dart';
 import '../bloc/portfolio/portfolio_bloc.dart';
 import '../widgets/common/app_drawer.dart';
 import '../widgets/common/custom_app_bar.dart';
-import '../widgets/common/scroll-to-top.dart';
+import '../widgets/common/scroll_to_top.dart';
 import '../widgets/common/scroll_down_button.dart';
 import '../widgets/experience/experience_section.dart';
 import '../widgets/home/hero_section.dart';
@@ -24,19 +25,18 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Section keys for scrolling
+  String _currentSection = AppSections.Home;
+
   final GlobalKey _heroKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
   final GlobalKey _experienceKey = GlobalKey();
 
-  // Map of section names to keys for easy access
   late final Map<String, GlobalKey> _sectionKeys;
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize section keys map
     _sectionKeys = {
       AppSections.Home: _heroKey,
       AppSections.Skills: _skillsKey,
@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  // Function to scroll to a specific section
+  // Scroll to section
   void _scrollToSection(String sectionName) {
     final key = _sectionKeys[sectionName];
     if (key != null && key.currentContext != null) {
@@ -63,9 +63,16 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  // Function to open drawer on mobile
   void _openDrawer() {
     _scaffoldKey.currentState?.openDrawer();
+  }
+
+  void _onSectionVisible(String section) {
+    if (_currentSection != section) {
+      setState(() {
+        _currentSection = section;
+      });
+    }
   }
 
   @override
@@ -75,6 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: CustomAppBar(
+        selectedSection: _currentSection,
         showDrawerIcon: isMobile,
         onDrawerIconPressed: _openDrawer,
         onNavItemTapped: _scrollToSection,
@@ -88,42 +96,65 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Hero Section
-                HeroSection(
-                  key: _heroKey,
-                  onResumePressed: () {
-                    // Handle resume button press
+                VisibilityDetector(
+                  key: const Key(AppSections.Home),
+                  onVisibilityChanged: (info) {
+                    if (info.visibleFraction > 0.5) {
+                      _onSectionVisible(AppSections.Home);
+                    }
                   },
+                  child: HeroSection(
+                    key: _heroKey,
+                    onResumePressed: () {
+                      // Handle resume button press
+                    },
+                  ),
                 ),
 
-                // Scroll down button at the end of hero section
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 60),
                     child: ScrollDownButton(
-                      onPressed: () => _scrollToSection('Skills'),
+                      onPressed: () => _scrollToSection(AppSections.Skills),
                     ),
                   ),
                 ),
 
                 // Skills Section
-                buildSkillsSection(context, key: _skillsKey),
-
-                // Experience Section
-                BlocBuilder<PortfolioBloc, PortfolioState>(
-                  builder: (context, state) {
-                    return buildExperienceSection(
-                      context,
-                      key: _experienceKey,
-                      experiences: state.experiences,
-                    );
+                VisibilityDetector(
+                  key: const Key(AppSections.Skills),
+                  onVisibilityChanged: (info) {
+                    if (info.visibleFraction > 0.2) {
+                      _onSectionVisible(AppSections.Skills);
+                    }
                   },
+                  child: buildSkillsSection(context, key: _skillsKey),
                 ),
 
-                // Footer
+                // Experience Section
+                VisibilityDetector(
+                  key: const Key(AppSections.Experience),
+                  onVisibilityChanged: (info) {
+                    if (info.visibleFraction > 0.3) {
+                      _onSectionVisible(AppSections.Experience);
+                    }
+                  },
+                  child: BlocBuilder<PortfolioBloc, PortfolioState>(
+                    builder: (context, state) {
+                      return buildExperienceSection(
+                        context,
+                        key: _experienceKey,
+                        experiences: state.experiences,
+                      );
+                    },
+                  ),
+                ),
+
                 _buildFooter(),
               ],
             ),
           ),
+
           // Scroll to top button
           Positioned(
             bottom: 30,
@@ -143,7 +174,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 60,
       color: Theme.of(context).brightness == Brightness.light
           ? AppColors.lightBackground
-          : AppColors.darkBackground.withValues(alpha: 0.3),
+          : AppColors.darkBackground.withOpacity(0.3),
       child: const Center(
         child: Text(''),
       ),
