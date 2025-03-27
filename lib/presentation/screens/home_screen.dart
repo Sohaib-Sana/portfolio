@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sohaib_portfolio/core/constants/app_text_styles.dart';
+import 'package:sohaib_portfolio/presentation/widgets/common/section_headers.dart';
+import 'package:sohaib_portfolio/presentation/widgets/contact/contact_section.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../core/constants/app_colors.dart';
@@ -30,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey _heroKey = GlobalKey();
   final GlobalKey _skillsKey = GlobalKey();
   final GlobalKey _experienceKey = GlobalKey();
+  final GlobalKey _contactKey = GlobalKey();
 
   late final Map<String, GlobalKey> _sectionKeys;
 
@@ -40,7 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _sectionKeys = {
       AppSections.Home: _heroKey,
       AppSections.Skills: _skillsKey,
-      AppSections.Experience: _experienceKey
+      AppSections.Experience: _experienceKey,
+      AppSections.Contact: _contactKey,
     };
   }
 
@@ -93,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SingleChildScrollView(
             controller: _scrollController,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Hero Section
                 VisibilityDetector(
@@ -111,12 +116,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 60),
-                    child: ScrollDownButton(
-                      onPressed: () => _scrollToSection(AppSections.Skills),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 60),
+                  child: ScrollDownButton(
+                    onPressed: () => _scrollToSection(AppSections.Skills),
                   ),
                 ),
 
@@ -150,6 +153,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
+                // Contact Section
+                VisibilityDetector(
+                    key: const Key(AppSections.Contact),
+                    onVisibilityChanged: (info) {
+                      if (info.visibleFraction > 0.3) {
+                        _onSectionVisible(AppSections.Contact);
+                      }
+                    },
+                    child: buildContactSection(context, key: _contactKey)),
                 _buildFooter(),
               ],
             ),
@@ -174,9 +186,11 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 60,
       color: Theme.of(context).brightness == Brightness.light
           ? AppColors.lightBackground
-          : AppColors.darkBackground.withOpacity(0.3),
+          : AppColors.darkBackground.withAlpha((0.3 * 255).toInt()),
       child: const Center(
-        child: Text(''),
+        child: Text(
+          '© 2025 All rights reserved | Created by Muhammad Sohaib Sana ♡',
+        ),
       ),
     );
   }
