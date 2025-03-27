@@ -1,0 +1,108 @@
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:sohaib_portfolio/core/constants/app_colors.dart';
+import 'package:sohaib_portfolio/core/constants/app_text_styles.dart';
+import 'package:sohaib_portfolio/core/utils/responsive_helper.dart';
+import 'package:sohaib_portfolio/presentation/widgets/common/social_button.dart';
+
+Widget buildContactSection(BuildContext context, {Key? key}) {
+  return Container(
+    key: key,
+    width: double.infinity,
+    padding: EdgeInsets.symmetric(
+      horizontal: ResponsiveHelper.getHorizontalPadding(context),
+      // vertical: 40,
+    ),
+    decoration: BoxDecoration(
+      color: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : AppColors.cardDark,
+      borderRadius: BorderRadius.circular(24),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withAlpha((0.05 * 255).toInt()),
+          blurRadius: 20,
+          spreadRadius: 5,
+        ),
+      ],
+    ),
+    margin: EdgeInsets.symmetric(
+      horizontal: ResponsiveHelper.getHorizontalPadding(context),
+      // vertical: 40,
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Contact content with robot image
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Let\'s create something amazing!',
+                  style: AppTextStyles.h4,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Feel free to reach out if you\'d like to discuss a project, a job opportunity, or simply want to connect.',
+                  style: AppTextStyles.bodyMedium,
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: () {
+                    // Handle contact button press - open email or form
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32),
+                    ),
+                  ),
+                  child: const Text('Say Hello'),
+                ),
+              ],
+            ),
+            if (!ResponsiveHelper.isMobile(context))
+              Expanded(child: Lottie.asset('animations/robot.json')),
+          ],
+        ),
+
+        const SizedBox(height: 40),
+
+        // Social media links
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SocialButton(platform: SocialPlatform.github),
+            SizedBox(width: 8),
+            SocialButton(platform: SocialPlatform.email),
+            SizedBox(width: 8),
+            SocialButton(platform: SocialPlatform.whatsapp),
+            SizedBox(width: 8),
+            SocialButton(platform: SocialPlatform.linkedin),
+            SizedBox(width: 8),
+          ],
+        ),
+
+        const SizedBox(height: 40),
+
+        // Divider
+        const Divider(height: 1),
+
+        const SizedBox(height: 24),
+
+        // Copyright text
+        // Text(
+        //   style: AppTextStyles.caption,
+        //   textAlign: TextAlign.center,
+        // ),
+      ],
+    ),
+  );
+}

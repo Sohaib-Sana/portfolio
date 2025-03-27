@@ -30,6 +30,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       AppSections.Home,
       AppSections.Skills,
       AppSections.Experience,
+      AppSections.Contact,
     ];
 
     return Container(
