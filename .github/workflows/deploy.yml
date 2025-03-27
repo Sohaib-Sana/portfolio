@@ -36,5 +36,5 @@ jobs:
 
           touch .nojekyll
           git add .
-          git commit -m "🚀 Auto-deploy from portfolio repo"
+          git commit -m "🚀 Auto-deploy from portfolio repository"
           git push --force origin main
