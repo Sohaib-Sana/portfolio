@@ -61,6 +61,6 @@ jobs:
           curl -X POST https://api.twilio.com/2010-04-01/Accounts/${{ secrets.TWILIO_ACCOUNT_SID }}/Messages.json \
           --data-urlencode "From=${{ secrets.TWILIO_WHATSAPP_NUMBER }}" \
           --data-urlencode "To=${{ secrets.MY_PHONE_NUMBER }}" \
-          --data-urlencode "Body=✅ GitHub Action: Merged and deleted branch '${{ steps.get_branch.outputs.branch_name }}' into main." \
+          --data-urlencode "Body=✅ GitHub Action: Merged and deleted source branch '${{ steps.get_branch.outputs.branch_name }}' into main." \
           -u "${{ secrets.TWILIO_ACCOUNT_SID }}:${{ secrets.TWILIO_AUTH_TOKEN }}"
 
