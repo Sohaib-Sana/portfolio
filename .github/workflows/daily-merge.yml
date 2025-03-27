@@ -1,0 +1,66 @@
+name: Merge Oldest Daily Branch to Main
+
+on:
+  schedule:
+    - cron: '1 19 * * *'  # 12:01 AM PKT
+  workflow_dispatch:
+
+permissions:
+  contents: write  # Needed to push and delete branches
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history and all branches
+
+      - name: Find oldest daily-* branch
+        id: get_branch
+        run: |
+          oldest_branch=$(git for-each-ref --sort=committerdate --format='%(refname:short)' refs/remotes/origin/daily-* | head -n 1 || true)
+          if [[ -z "$oldest_branch" ]]; then
+            echo "No daily-* branches found."
+            echo "branch_name=" >> $GITHUB_OUTPUT
+          else
+            echo "Oldest daily branch: $oldest_branch"
+            echo "branch_name=${oldest_branch#origin/}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "Sohaib-Sana"
+          git config --global user.email "dev.sohaibsana@gmail.com"
+
+      - name: Checkout main
+        run: |
+          git checkout main
+          git pull origin main
+
+      - name: Merge oldest daily branch into main
+        if: steps.get_branch.outputs.branch_name != ''
+        run: |
+          git merge origin/${{ steps.get_branch.outputs.branch_name }} --no-edit || echo "Nothing to merge"
+
+      - name: Push changes to main
+        if: steps.get_branch.outputs.branch_name != ''
+        run: |
+          git push origin main
+
+      - name: Delete merged daily branch from origin
+        if: steps.get_branch.outputs.branch_name != ''
+        run: |
+          git push origin --delete ${{ steps.get_branch.outputs.branch_name }}
+
+      - name: Send WhatsApp notification
+        if: steps.get_branch.outputs.branch_name != ''
+        run: |
+          curl -X POST https://api.twilio.com/2010-04-01/Accounts/${{ secrets.TWILIO_ACCOUNT_SID }}/Messages.json \
+          --data-urlencode "From=${{ secrets.TWILIO_WHATSAPP_NUMBER }}" \
+          --data-urlencode "To=${{ secrets.MY_PHONE_NUMBER }}" \
+          --data-urlencode "Body=✅ GitHub Action: Merged and deleted branch '${{ steps.get_branch.outputs.branch_name }}' into main." \
+          -u "${{ secrets.TWILIO_ACCOUNT_SID }}:${{ secrets.TWILIO_AUTH_TOKEN }}"
+
