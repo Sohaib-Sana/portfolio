@@ -1,0 +1,40 @@
+name: Deploy Flutter Web to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build Flutter web
+        run: flutter build web
+
+      - name: Deploy to Sohaib-Sana.github.io
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          cd build/web
+
+          git init
+          git remote add origin https://x-access-token:${{ secrets.PAGES_DEPLOY_TOKEN }}@github.com/Sohaib-Sana/Sohaib-Sana.github.io.git
+          git checkout -b main
+
+          touch .nojekyll
+          git add .
+          git commit -m "🚀 Auto-deploy from portfolio repo"
+          git push --force origin main
