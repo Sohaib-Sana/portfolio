@@ -134,9 +134,12 @@ class _HeroSectionState extends State<HeroSection>
             const SizedBox(height: 8),
             AnimatedText(
               texts: const [
-                'A Flutter Developer',
+                'A Software Engineer',
+                'A Flutter Expert',
                 'A Mobile App Developer',
+                'A React Developer',
                 'A UI/UX Enthusiast',
+                'A ML/AI Enthusiast',
               ],
               style: isMobile
                   ? AppTextStyles.h4.copyWith(
@@ -150,7 +153,7 @@ class _HeroSectionState extends State<HeroSection>
             ),
             const SizedBox(height: 24),
             Text(
-              'Mobile Application Developer crafting high-quality apps and '
+              'Mobile and Web Application Developer crafting high-quality apps and '
               'delivering seamless user experiences. Join me below, and let\'s '
               'bring your ideas to life!',
               style:

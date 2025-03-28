@@ -45,5 +45,5 @@ class AppColors {
   // Social Platforms colors.
   static const Color linkedColor = Color(0xff0077b5);
   static const Color whatsappColor = Color(0xff00FF00);
-  static const Color emailColor = Color(0xff990000);
+  static const Color emailColor = Color.fromARGB(220, 189, 40, 40);
 }
