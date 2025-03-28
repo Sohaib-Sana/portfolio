@@ -9,9 +9,10 @@ Widget buildContactSection(BuildContext context, {Key? key}) {
   return Container(
     key: key,
     width: double.infinity,
+    // height: ResponsiveHelper.getContentMaxWidth(context) / 2,
     padding: EdgeInsets.symmetric(
       horizontal: ResponsiveHelper.getHorizontalPadding(context),
-      // vertical: 40,
+      vertical: 40,
     ),
     decoration: BoxDecoration(
       color: Theme.of(context).brightness == Brightness.light
@@ -38,42 +39,46 @@ Widget buildContactSection(BuildContext context, {Key? key}) {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Let\'s create something amazing!',
-                  style: AppTextStyles.h4,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Feel free to reach out if you\'d like to discuss a project, a job opportunity, or simply want to connect.',
-                  style: AppTextStyles.bodyMedium,
-                ),
-                const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle contact button press - open email or form
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32),
-                    ),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Let\'s create something amazing!',
+                    style: AppTextStyles.h4,
                   ),
-                  child: const Text('Say Hello'),
-                ),
-              ],
+                  const SizedBox(height: 8),
+                  Text(
+                    'Feel free to reach out if you\'d like to discuss a project, a job opportunity, or simply want to connect.',
+                    style: AppTextStyles.bodyMedium,
+                  ),
+                  const SizedBox(height: 24),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Handle contact button press - open email or form
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 32, vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                    ),
+                    child: const Text('Say Hello'),
+                  ),
+                ],
+              ),
             ),
             if (!ResponsiveHelper.isMobile(context))
-              Expanded(child: Lottie.asset('animations/robot.json')),
+              Lottie.asset(
+                'animations/robot.json',
+              ),
           ],
         ),
 
-        const SizedBox(height: 40),
+        // const SizedBox(height: 40),
 
         // Social media links
         const Row(

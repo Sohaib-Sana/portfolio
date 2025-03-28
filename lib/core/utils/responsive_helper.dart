@@ -39,7 +39,7 @@ class ResponsiveHelper {
       case DeviceType.tablet:
         return 700;
       case DeviceType.desktop:
-        return 1200;
+        return 1000;
     }
   }
 
