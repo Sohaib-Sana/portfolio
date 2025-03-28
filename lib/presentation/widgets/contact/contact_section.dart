@@ -73,7 +73,7 @@ Widget buildContactSection(BuildContext context, {Key? key}) {
             ),
             if (!ResponsiveHelper.isMobile(context))
               Lottie.asset(
-                'animations/robot.json',
+                'assets/animations/robot.json',
               ),
           ],
         ),
@@ -86,11 +86,20 @@ Widget buildContactSection(BuildContext context, {Key? key}) {
           children: [
             SocialButton(platform: SocialPlatform.github),
             SizedBox(width: 8),
-            SocialButton(platform: SocialPlatform.email),
+            SocialButton(
+              platform: SocialPlatform.email,
+              color: AppColors.emailColor,
+            ),
             SizedBox(width: 8),
-            SocialButton(platform: SocialPlatform.whatsapp),
+            SocialButton(
+              platform: SocialPlatform.whatsapp,
+              color: AppColors.whatsappColor,
+            ),
             SizedBox(width: 8),
-            SocialButton(platform: SocialPlatform.linkedin),
+            SocialButton(
+              platform: SocialPlatform.linkedin,
+              color: AppColors.linkedColor,
+            ),
             SizedBox(width: 8),
           ],
         ),

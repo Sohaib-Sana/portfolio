@@ -41,4 +41,9 @@ class AppColors {
   static const Color borderColor = Color(0xFFDDDDDD); // Light grey border
   static const Color darkBorderColor =
       Color(0xFF444444); // Dark grey border in dark mode
+
+  // Social Platforms colors.
+  static const Color linkedColor = Color(0xff0077b5);
+  static const Color whatsappColor = Color(0xff00FF00);
+  static const Color emailColor = Color(0xff990000);
 }
