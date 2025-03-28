@@ -45,9 +45,10 @@ jobs:
         run: |
           git merge origin/${{ steps.get_branch.outputs.branch_name }} --no-edit || echo "Nothing to merge"
 
-      - name: Push changes to main
+      - name: Push changes to main using PAT
         if: steps.get_branch.outputs.branch_name != ''
         run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/Sohaib-Sana/portfolio.git
           git push origin main
 
       - name: Delete merged queue branch from origin
