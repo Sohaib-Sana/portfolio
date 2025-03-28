@@ -12,6 +12,13 @@ jobs:
       - name: Checkout source repo
         uses: actions/checkout@v3
 
+      - name: Skip deploy if commit message contains [skip deploy]
+        run: |
+          if git log -1 --pretty=%B | grep -q "\[skip deploy\]"; then
+            echo "🛑 Skipping deploy due to commit message flag."
+            exit 0
+          fi
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:

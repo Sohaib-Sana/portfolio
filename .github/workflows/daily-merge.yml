@@ -1,4 +1,4 @@
-name: Merge Oldest Daily Branch to Main
+name: Merge Oldest Queue Branch to Main
 
 on:
   schedule:
@@ -18,15 +18,15 @@ jobs:
         with:
           fetch-depth: 0  # Fetch full history and all branches
 
-      - name: Find oldest daily-* branch
+      - name: Find oldest queue-* branch
         id: get_branch
         run: |
-          oldest_branch=$(git for-each-ref --sort=committerdate --format='%(refname:short)' refs/remotes/origin/daily-* | head -n 1 || true)
+          oldest_branch=$(git for-each-ref --sort=committerdate --format='%(refname:short)' refs/remotes/origin/queue-* | head -n 1 || true)
           if [[ -z "$oldest_branch" ]]; then
-            echo "No daily-* branches found."
+            echo "No queue-* branches found."
             echo "branch_name=" >> $GITHUB_OUTPUT
           else
-            echo "Oldest daily branch: $oldest_branch"
+            echo "Oldest queue branch: $oldest_branch"
             echo "branch_name=${oldest_branch#origin/}" >> $GITHUB_OUTPUT
           fi
 
@@ -40,7 +40,7 @@ jobs:
           git checkout main
           git pull origin main
 
-      - name: Merge oldest daily branch into main
+      - name: Merge oldest queue branch into main
         if: steps.get_branch.outputs.branch_name != ''
         run: |
           git merge origin/${{ steps.get_branch.outputs.branch_name }} --no-edit || echo "Nothing to merge"
@@ -50,7 +50,7 @@ jobs:
         run: |
           git push origin main
 
-      - name: Delete merged daily branch from origin
+      - name: Delete merged queue branch from origin
         if: steps.get_branch.outputs.branch_name != ''
         run: |
           git push origin --delete ${{ steps.get_branch.outputs.branch_name }}
