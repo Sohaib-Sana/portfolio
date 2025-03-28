@@ -3,6 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:sohaib_portfolio/core/constants/app_colors.dart';
 import 'package:sohaib_portfolio/core/constants/app_text_styles.dart';
 import 'package:sohaib_portfolio/core/utils/responsive_helper.dart';
+import 'package:sohaib_portfolio/core/utils/social_interaction_helpers.dart';
 import 'package:sohaib_portfolio/presentation/widgets/common/social_button.dart';
 
 Widget buildContactSection(BuildContext context, {Key? key}) {
@@ -54,9 +55,7 @@ Widget buildContactSection(BuildContext context, {Key? key}) {
                   ),
                   const SizedBox(height: 24),
                   ElevatedButton(
-                    onPressed: () {
-                      // Handle contact button press - open email or form
-                    },
+                    onPressed: URLLaunchHelper.onSayHelloTap,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       foregroundColor: Colors.white,
@@ -73,7 +72,7 @@ Widget buildContactSection(BuildContext context, {Key? key}) {
             ),
             if (!ResponsiveHelper.isMobile(context))
               Lottie.asset(
-                'animations/robot.json',
+                'assets/animations/robot.json',
               ),
           ],
         ),
@@ -81,32 +80,38 @@ Widget buildContactSection(BuildContext context, {Key? key}) {
         // const SizedBox(height: 40),
 
         // Social media links
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SocialButton(platform: SocialPlatform.github),
-            SizedBox(width: 8),
-            SocialButton(platform: SocialPlatform.email),
-            SizedBox(width: 8),
-            SocialButton(platform: SocialPlatform.whatsapp),
-            SizedBox(width: 8),
-            SocialButton(platform: SocialPlatform.linkedin),
-            SizedBox(width: 8),
+            SocialButton(
+              platform: SocialPlatform.github,
+              onTap: () => URLLaunchHelper.onTapGitHub(),
+            ),
+            const SizedBox(width: 8),
+            SocialButton(
+              platform: SocialPlatform.email,
+              color: AppColors.emailColor,
+              onTap: () => URLLaunchHelper.onTapEmail(),
+            ),
+            const SizedBox(width: 8),
+            SocialButton(
+              platform: SocialPlatform.whatsapp,
+              color: AppColors.whatsappColor,
+              onTap: () => URLLaunchHelper.onTapWhatsApp(),
+            ),
+            const SizedBox(width: 8),
+            SocialButton(
+              platform: SocialPlatform.linkedin,
+              color: AppColors.linkedColor,
+              onTap: () => URLLaunchHelper.onTapLinkedIn(),
+            ),
+            const SizedBox(width: 8),
           ],
         ),
-
         const SizedBox(height: 40),
 
         // Divider
         const Divider(height: 1),
-
-        const SizedBox(height: 24),
-
-        // Copyright text
-        // Text(
-        //   style: AppTextStyles.caption,
-        //   textAlign: TextAlign.center,
-        // ),
       ],
     ),
   );
