@@ -31,6 +31,7 @@ jobs:
         run: flutter build web
 
       - name: Deploy to Sohaib-Sana.github.io
+        id: deploy_app
         run: |
           git config --global user.name "Sohaib Sana [Workflow bot]"
           git config --global user.email "dev.sohaibsana@gmail.com"
@@ -45,3 +46,9 @@ jobs:
           git add .
           git commit -m "🚀 Auto-deploy from portfolio repository"
           git push --force origin main
+
+      - name: Send Telegram notification
+        run: |
+          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+          -d text="✅ Successfully Deployed 'main' branch from portfolio repo to Sohaib-Sana.github.io repo"
