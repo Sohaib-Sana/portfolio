@@ -3,7 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:sohaib_portfolio/core/constants/app_colors.dart';
 import 'package:sohaib_portfolio/core/constants/app_text_styles.dart';
 import 'package:sohaib_portfolio/core/utils/responsive_helper.dart';
-import 'package:sohaib_portfolio/core/utils/social_interaction_helpers.dart';
+import 'package:sohaib_portfolio/core/utils/url_launcher_helper.dart';
 import 'package:sohaib_portfolio/presentation/widgets/common/social_button.dart';
 
 Widget buildContactSection(BuildContext context, {Key? key}) {

@@ -2,10 +2,12 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:web/web.dart' as web;
 
 class URLLaunchHelper {
-  static void downloadFileWeb(String url, String fileName) {
+  static void downloadResumeFromAssets() {
+    const assetUrl = 'assets/pdfs/MuhammadSohaibSana_Software_Resume.pdf';
+
     final anchor = web.HTMLAnchorElement()
-      ..href = url
-      ..download = fileName
+      ..href = assetUrl
+      ..download = 'Muhammad_Sohaib_Sana_Resume.pdf'
       ..style.display = 'none';
 
     web.document.body!.append(anchor);

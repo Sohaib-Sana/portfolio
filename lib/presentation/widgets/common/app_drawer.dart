@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sohaib_portfolio/core/constants/app_colors.dart';
-import 'package:sohaib_portfolio/core/utils/social_interaction_helpers.dart';
+import 'package:sohaib_portfolio/core/utils/url_launcher_helper.dart';
 
 import '../../../core/constants/app_text_styles.dart';
 import '../../../core/constants/sections.dart';
