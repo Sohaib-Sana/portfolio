@@ -108,7 +108,7 @@ Widget buildContactSection(BuildContext context, {Key? key}) {
             const SizedBox(width: 8),
           ],
         ),
-        const SizedBox(height: 40),
+        const SizedBox(height: 36),
 
         // Divider
         const Divider(height: 1),
