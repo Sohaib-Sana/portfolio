@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sohaib_portfolio/core/constants/app_colors.dart';
+import 'package:sohaib_portfolio/core/utils/social_interaction_helpers.dart';
 
 import '../../../core/constants/app_text_styles.dart';
 import '../../../core/constants/sections.dart';
@@ -15,6 +17,7 @@ class AppDrawer extends StatelessWidget {
       AppSections.Home,
       AppSections.Skills,
       AppSections.Experience,
+      AppSections.Contact
     ],
   }) : super(key: key);
 
@@ -26,7 +29,10 @@ class AppDrawer extends StatelessWidget {
           // Drawer header with logo
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              color: Theme.of(context)
+                  .colorScheme
+                  .primary
+                  .withAlpha((0.1 * 255).toInt()),
             ),
             child: Center(
               child: Row(
@@ -76,26 +82,33 @@ class AppDrawer extends StatelessWidget {
           ),
 
           // Social media links
-          const Padding(
+          Padding(
             padding: EdgeInsets.symmetric(vertical: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SocialButton(
-                  platform: SocialPlatform.github,
-                  size: 20,
+                  platform: SocialPlatform.email,
+                  size: 24,
+                  color: AppColors.emailColor,
+                  onTap: () => URLLaunchHelper.onTapEmail(),
                 ),
                 SocialButton(
                   platform: SocialPlatform.linkedin,
                   size: 20,
+                  color: AppColors.linkedColor,
+                  onTap: () => URLLaunchHelper.onTapLinkedIn(),
                 ),
                 SocialButton(
-                  platform: SocialPlatform.facebook,
+                  platform: SocialPlatform.whatsapp,
                   size: 20,
+                  color: AppColors.whatsappColor,
+                  onTap: () => URLLaunchHelper.onTapWhatsApp(),
                 ),
                 SocialButton(
-                  platform: SocialPlatform.email,
+                  platform: SocialPlatform.github,
                   size: 20,
+                  onTap: () => URLLaunchHelper.onTapGitHub(),
                 ),
               ],
             ),
@@ -119,11 +132,13 @@ class AppDrawer extends StatelessWidget {
   Icon _getIconForNavItem(String navItem) {
     switch (navItem) {
       case AppSections.Home:
-        return const Icon(Icons.home);
+        return const Icon(Icons.home_outlined);
       case AppSections.Skills:
         return const Icon(Icons.code);
       case AppSections.Experience:
-        return const Icon(Icons.work);
+        return const Icon(Icons.work_outline);
+      case AppSections.Contact:
+        return const Icon(Icons.contact_mail_outlined);
       default:
         return const Icon(Icons.circle);
     }

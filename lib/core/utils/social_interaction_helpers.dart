@@ -1,6 +1,18 @@
 import 'package:url_launcher/url_launcher.dart';
+import 'package:web/web.dart' as web;
 
 class URLLaunchHelper {
+  static void downloadFileWeb(String url, String fileName) {
+    final anchor = web.HTMLAnchorElement()
+      ..href = url
+      ..download = fileName
+      ..style.display = 'none';
+
+    web.document.body!.append(anchor);
+    anchor.click();
+    anchor.remove();
+  }
+
   static void onTapEmail() async {
     final Uri emailUri = Uri(
       scheme: 'mailto',
