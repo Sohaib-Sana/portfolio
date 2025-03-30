@@ -62,3 +62,13 @@ jobs:
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
           -d text="✅ Successfully merged '${{ steps.get_branch.outputs.branch_name }}' into 'main' and deleted the branch."
+      
+      - name: Trigger Deploy Workflow Manually
+        if: steps.get_branch.outputs.branch_name != ''
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.GH_PAT }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/Sohaib-Sana/portfolio/actions/workflows/deploy.yml/dispatches \
+            -d '{"ref":"main"}'
+
