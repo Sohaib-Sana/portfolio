@@ -182,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildFooter() {
     return Container(
       width: double.infinity,
-      height: 60,
+      height: 62,
       color: Theme.of(context).brightness == Brightness.light
           ? AppColors.lightBackground
           : AppColors.darkBackground.withAlpha((0.3 * 255).toInt()),
