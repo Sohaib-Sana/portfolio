@@ -77,8 +77,6 @@ Widget buildContactSection(BuildContext context, {Key? key}) {
           ],
         ),
 
-        // const SizedBox(height: 40),
-
         // Social media links
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
