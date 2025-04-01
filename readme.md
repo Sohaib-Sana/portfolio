@@ -119,9 +119,8 @@ To customize the app's theme:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+No license is issued yet
 
 ## Acknowledgements
 
 - Design inspiration: [Menna Allah Mohamed's Portfolio](https://mennamohamed97.github.io/)
-- Flutter and all the package authors
