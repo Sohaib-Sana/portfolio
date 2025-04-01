@@ -2,7 +2,7 @@ name: Merge Oldest Queue Branch to Main
 
 on:
   schedule:
-    - cron: '1 19 * * *'  # 12:01 AM PKT
+    - cron: '0 15 * * *'  # 8:00 PM PKT
   workflow_dispatch:
 
 permissions:
@@ -17,6 +17,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Fetch full history and all branches
+
+      - name: Check if queue merge is disabled via manual toggle
+        run: |
+          if [ "${{ vars.SKIP_QUEUE_MERGE }}" = "true" ]; then
+            echo "Queue merge is disabled via manual toggle. Exiting..."
+            exit 0
+          fi
 
       - name: Find oldest queue-* branch
         id: get_branch
