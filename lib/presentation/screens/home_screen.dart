@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sohaib_portfolio/core/constants/app_text_styles.dart';
 import 'package:sohaib_portfolio/core/utils/url_launcher_helper.dart';
-import 'package:sohaib_portfolio/presentation/widgets/common/section_headers.dart';
 import 'package:sohaib_portfolio/presentation/widgets/contact/contact_section.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
