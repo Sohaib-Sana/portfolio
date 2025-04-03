@@ -30,7 +30,7 @@ class ExperienceModel {
         duration: 'Dec 2023 - May 2024',
         employmentType: 'Intern',
         certificate: 'Certificate',
-        coverLetter: 'Cover Letter',
+        // coverLetter: 'Cover Letter',
       ),
       ExperienceModel(
         position: 'Flutter Developr',
