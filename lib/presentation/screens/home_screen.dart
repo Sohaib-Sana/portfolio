@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sohaib_portfolio/core/utils/url_launcher_helper.dart';
 import 'package:sohaib_portfolio/presentation/widgets/contact/contact_section.dart';
 import 'package:visibility_detector/visibility_detector.dart';
-
 import '../../core/constants/app_colors.dart';
 import '../../core/constants/sections.dart';
 import '../../core/utils/responsive_helper.dart';
