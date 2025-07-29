@@ -34,7 +34,7 @@ class AppTheme {
         buttonColor: AppColors.primary,
         textTheme: ButtonTextTheme.primary,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.cardLight,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -89,7 +89,7 @@ class AppTheme {
         buttonColor: AppColors.primary,
         textTheme: ButtonTextTheme.primary,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppColors.cardDark,
         elevation: 0,
         shape: RoundedRectangleBorder(

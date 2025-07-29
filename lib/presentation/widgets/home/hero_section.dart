@@ -137,8 +137,7 @@ class _HeroSectionState extends State<HeroSection>
                 'A Software Engineer',
                 'A Flutter Expert',
                 'A Mobile App Developer',
-                'A React Developer',
-                'A UI/UX Enthusiast',
+                'A Full Stack Developer',
                 'A ML/AI Enthusiast',
               ],
               style: isMobile
