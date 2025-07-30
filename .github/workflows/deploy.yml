@@ -2,7 +2,7 @@ name: Deploy Flutter Web to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, stag]
   workflow_dispatch:
 
 jobs:
@@ -31,25 +31,36 @@ jobs:
       - name: Build Flutter web
         run: flutter build web
 
-      - name: Deploy to Sohaib-Sana.github.io
-        id: deploy_app
+      - name: Clone GitHub Pages repo
         run: |
-          git config --global user.name "Sohaib Sana [Workflow bot]"
-          git config --global user.email "dev.sohaibsana@gmail.com"
+          git clone https://x-access-token:${{ secrets.GH_PAT }}@github.com/Sohaib-Sana/Sohaib-Sana.github.io.git gh-pages
+          cd gh-pages
+          git config user.name "Sohaib Sana [Workflow bot]"
+          git config user.email "dev.sohaibsana@gmail.com"
 
-          cd build/web
+      - name: Deploy based on branch
+        run: |
+          BRANCH_NAME="${GITHUB_REF##*/}"
 
-          git init
-          git remote add origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/Sohaib-Sana/Sohaib-Sana.github.io.git
-          git checkout -b main
+          if [ "$BRANCH_NAME" = "main" ]; then
+            TARGET_DIR="."
+          else
+            TARGET_DIR="$BRANCH_NAME"
+          fi
 
-          touch .nojekyll
-          git add .
-          git commit -m "🚀 Auto-deploy from portfolio repository"
-          git push --force origin main
+          rm -rf gh-pages/${TARGET_DIR}
+          mkdir -p gh-pages/${TARGET_DIR}
+          cp -r build/web/* gh-pages/${TARGET_DIR}/
+
+          cd gh-pages
+          touch ${TARGET_DIR}/.nojekyll
+          git add ${TARGET_DIR}
+          git commit -m "🚀 Deploy ${BRANCH_NAME} branch from portfolio repo"
+          git push origin main
 
       - name: Send Telegram notification
         run: |
+          BRANCH_NAME="${GITHUB_REF##*/}"
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d text="✅ Successfully Deployed 'main' branch from portfolio repo to Sohaib-Sana.github.io repo"
+          -d text="✅ Successfully deployed '${BRANCH_NAME}' branch to Sohaib-Sana.github.io/${BRANCH_NAME}"

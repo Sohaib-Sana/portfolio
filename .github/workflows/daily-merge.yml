@@ -1,4 +1,4 @@
-name: Merge Oldest Queue Branch to Main
+name: Merge Oldest Stag or Queue Branch
 
 on:
   schedule:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write # Needed to push and delete branches
+  contents: write
 
 jobs:
   merge:
@@ -16,68 +16,70 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Fetch full history and all branches
-
-      - name: Check if queue merge is disabled via manual toggle
-        env:
-          SKIP_QUEUE_MERGE: ${{ vars.SKIP_QUEUE_MERGE }}
-        run: |
-          echo "SKIP_QUEUE_MERGE is: $SKIP_QUEUE_MERGE"
-          if [ "$SKIP_QUEUE_MERGE" = "true" ]; then
-            echo "Queue merge is disabled via manual toggle. Exiting..."
-            exit 0
-          fi
-
-      - name: Find oldest queue-* branch
-        id: get_branch
-        run: |
-          oldest_branch=$(git for-each-ref --sort=committerdate --format='%(refname:short)' refs/remotes/origin/queue-* | head -n 1 || true)
-          if [[ -z "$oldest_branch" ]]; then
-            echo "No queue-* branches found."
-            echo "branch_name=" >> $GITHUB_OUTPUT
-          else
-            echo "Oldest queue branch: $oldest_branch"
-            echo "branch_name=${oldest_branch#origin/}" >> $GITHUB_OUTPUT
-          fi
+          fetch-depth: 0
 
       - name: Configure Git
         run: |
           git config --global user.name "Sohaib-Sana"
           git config --global user.email "dev.sohaibsana@gmail.com"
 
-      - name: Checkout main
+      - name: Check for oldest stag-* or queue-* branch
+        id: find_branch
         run: |
-          git checkout main
-          git pull origin main
+          echo "🔍 Searching for stag-* branches..."
+          stag_branch=$(git for-each-ref --sort=committerdate --format='%(refname:short)' refs/remotes/origin/stag-* | head -n 1 || true)
 
-      - name: Merge oldest queue branch into main
-        if: steps.get_branch.outputs.branch_name != ''
+          if [[ -n "$stag_branch" ]]; then
+            echo "🟠 Found stag branch: $stag_branch"
+            echo "branch_name=${stag_branch#origin/}" >> $GITHUB_OUTPUT
+            echo "target_branch=stag" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "🔍 No stag-* branch found. Checking for queue-* branches..."
+          queue_branch=$(git for-each-ref --sort=committerdate --format='%(refname:short)' refs/remotes/origin/queue-* | head -n 1 || true)
+
+          if [[ -n "$queue_branch" ]]; then
+            echo "🟢 Found queue branch: $queue_branch"
+            echo "branch_name=${queue_branch#origin/}" >> $GITHUB_OUTPUT
+            echo "target_branch=main" >> $GITHUB_OUTPUT
+          else
+            echo "❌ No stag-* or queue-* branches found. Exiting."
+            echo "branch_name=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Exit early if no branch found
+        if: steps.find_branch.outputs.branch_name == ''
+        run: exit 0
+
+      - name: Checkout target branch
         run: |
-          git merge origin/${{ steps.get_branch.outputs.branch_name }} --no-edit || echo "Nothing to merge"
+          git checkout ${{ steps.find_branch.outputs.target_branch }}
+          git pull origin ${{ steps.find_branch.outputs.target_branch }}
 
-      - name: Push changes to main using PAT
-        if: steps.get_branch.outputs.branch_name != ''
+      - name: Merge into target branch
+        run: |
+          echo "🔁 Merging '${{ steps.find_branch.outputs.branch_name }}' into '${{ steps.find_branch.outputs.target_branch }}'..."
+          git merge origin/${{ steps.find_branch.outputs.branch_name }} --no-edit || echo "Nothing to merge"
+
+      - name: Push and delete merged branch
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/Sohaib-Sana/portfolio.git
-          git push origin main
+          git push origin ${{ steps.find_branch.outputs.target_branch }}
+          git push origin --delete ${{ steps.find_branch.outputs.branch_name }}
+          echo "🧹 Deleted merged branch: ${{ steps.find_branch.outputs.branch_name }}"
 
-      - name: Delete merged queue branch from origin
-        if: steps.get_branch.outputs.branch_name != ''
-        run: |
-          git push origin --delete ${{ steps.get_branch.outputs.branch_name }}
-
-      - name: Send Telegram notification
-        if: steps.get_branch.outputs.branch_name != ''
+      - name: Notify via Telegram
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d text="✅ Successfully merged '${{ steps.get_branch.outputs.branch_name }}' into 'main' and deleted the branch."
+          -d text="✅ Merged '${{ steps.find_branch.outputs.branch_name }}' into '${{ steps.find_branch.outputs.target_branch }}' and deleted the branch."
 
-      - name: Trigger Deploy Workflow Manually
-        if: steps.get_branch.outputs.branch_name != ''
+      - name: Trigger deploy for target branch
         run: |
+          echo "🚀 Triggering deploy for '${{ steps.find_branch.outputs.target_branch }}'..."
           curl -X POST \
             -H "Authorization: token ${{ secrets.GH_PAT }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/Sohaib-Sana/portfolio/actions/workflows/deploy.yml/dispatches \
-            -d '{"ref":"main"}'
+            -d "{\"ref\":\"${{ steps.find_branch.outputs.target_branch }}\"}"
