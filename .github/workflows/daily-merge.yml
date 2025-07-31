@@ -48,21 +48,20 @@ jobs:
             echo "branch_name=" >> $GITHUB_OUTPUT
           fi
 
-      - name: Exit early if no branch found
-        if: steps.find_branch.outputs.branch_name == ''
-        run: exit 0
-
       - name: Checkout target branch
+        if: steps.find_branch.outputs.branch_name != ''
         run: |
           git checkout ${{ steps.find_branch.outputs.target_branch }}
           git pull origin ${{ steps.find_branch.outputs.target_branch }}
 
       - name: Merge into target branch
+        if: steps.find_branch.outputs.branch_name != ''
         run: |
           echo "🔁 Merging '${{ steps.find_branch.outputs.branch_name }}' into '${{ steps.find_branch.outputs.target_branch }}'..."
           git merge origin/${{ steps.find_branch.outputs.branch_name }} --no-edit || echo "Nothing to merge"
 
       - name: Push and delete merged branch
+        if: steps.find_branch.outputs.branch_name != ''
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/Sohaib-Sana/portfolio.git
           git push origin ${{ steps.find_branch.outputs.target_branch }}
@@ -70,12 +69,14 @@ jobs:
           echo "🧹 Deleted merged branch: ${{ steps.find_branch.outputs.branch_name }}"
 
       - name: Notify via Telegram
+        if: steps.find_branch.outputs.branch_name != ''
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
           -d text="✅ Merged '${{ steps.find_branch.outputs.branch_name }}' into '${{ steps.find_branch.outputs.target_branch }}' and deleted the branch."
 
       - name: Trigger deploy for target branch
+        if: steps.find_branch.outputs.branch_name != ''
         run: |
           echo "🚀 Triggering deploy for '${{ steps.find_branch.outputs.target_branch }}'..."
           curl -X POST \
