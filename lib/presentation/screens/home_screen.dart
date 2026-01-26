@@ -70,17 +70,18 @@ class _HomeScreenState extends State<HomeScreen> {
     _scaffoldKey.currentState?.openDrawer();
   }
 
-  void _onSectionVisible(String section) {
-    if (_currentSection != section) {
-      setState(() {
-        _currentSection = section;
-      });
-    }
-  }
+  // void _onSectionVisible(String section) {
+  //   if (_currentSection != section) {
+  //     setState(() {
+  //       _currentSection = section;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
     final isMobile = ResponsiveHelper.isMobile(context);
+    print("BUILD");
 
     return Scaffold(
       key: _scaffoldKey,
@@ -93,50 +94,49 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: isMobile ? AppDrawer(onNavItemTapped: _scrollToSection) : null,
       body: Stack(
         children: [
-          SingleChildScrollView(
+          CustomScrollView(
             controller: _scrollController,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Hero Section
-                VisibilityDetector(
+            slivers: [
+              SliverToBoxAdapter(
+                child: VisibilityDetector(
                   key: const Key(AppSections.Home),
                   onVisibilityChanged: (info) {
-                    if (info.visibleFraction > 0.5) {
-                      _onSectionVisible(AppSections.Home);
-                    }
+                    // if (info.visibleFraction > 0.5) {
+                    //   _onSectionVisible(AppSections.Home);
+                    // }
                   },
                   child: HeroSection(
                     key: _heroKey,
                     onResumePressed: URLLaunchHelper.downloadResumeFromAssets,
                   ),
                 ),
-
-                Padding(
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
                   padding: const EdgeInsets.only(bottom: 60),
                   child: ScrollDownButton(
                     onPressed: () => _scrollToSection(AppSections.Skills),
                   ),
                 ),
-
-                // Skills Section
-                VisibilityDetector(
+              ),
+              SliverToBoxAdapter(
+                child: VisibilityDetector(
                   key: const Key(AppSections.Skills),
                   onVisibilityChanged: (info) {
-                    if (info.visibleFraction > 0.2) {
-                      _onSectionVisible(AppSections.Skills);
-                    }
+                    // if (info.visibleFraction > 0.2) {
+                    //   _onSectionVisible(AppSections.Skills);
+                    // }
                   },
                   child: buildSkillsSection(context, key: _skillsKey),
                 ),
-
-                // Experience Section
-                VisibilityDetector(
+              ),
+              SliverToBoxAdapter(
+                child: VisibilityDetector(
                   key: const Key(AppSections.Experience),
                   onVisibilityChanged: (info) {
-                    if (info.visibleFraction > 0.3) {
-                      _onSectionVisible(AppSections.Experience);
-                    }
+                    // if (info.visibleFraction > 0.3) {
+                    //   _onSectionVisible(AppSections.Experience);
+                    // }
                   },
                   child: BlocBuilder<PortfolioBloc, PortfolioState>(
                     builder: (context, state) {
@@ -148,22 +148,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-
-                // Contact Section
-                VisibilityDetector(
-                    key: const Key(AppSections.Contact),
-                    onVisibilityChanged: (info) {
-                      if (info.visibleFraction > 0.3) {
-                        _onSectionVisible(AppSections.Contact);
-                      }
-                    },
-                    child: buildContactSection(context, key: _contactKey)),
-                _buildFooter(),
-              ],
-            ),
+              ),
+              SliverToBoxAdapter(
+                child: VisibilityDetector(
+                  key: const Key(AppSections.Contact),
+                  onVisibilityChanged: (info) {
+                    // if (info.visibleFraction > 0.3) {
+                    //   _onSectionVisible(AppSections.Contact);
+                    // }
+                  },
+                  child: buildContactSection(context, key: _contactKey),
+                ),
+              ),
+              SliverToBoxAdapter(child: _buildFooter()),
+            ],
           ),
-
-          // Scroll to top button
           Positioned(
             bottom: 30,
             right: 30,
