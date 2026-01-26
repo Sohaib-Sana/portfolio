@@ -81,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final isMobile = ResponsiveHelper.isMobile(context);
+    print("BUILD");
 
     return Scaffold(
       key: _scaffoldKey,
